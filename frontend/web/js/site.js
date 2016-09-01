@@ -49,8 +49,8 @@ function clearComplete() {
 			task[i].closest('tr').remove();
 			// Post to delete item
 			var xmlhttp = new XMLHttpRequest();
-			console.log(tmp[0].closest('#task-id'));
-	        xmlhttp.open("GET", "http://localhost/your-task/task/delete?id="+tmp[0].closest('input').innerHTML, true);
+	        xmlhttp.open("POST", "http://localhost/your-task/task/delete?id="+tmp[0].id, true);
+			xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			xmlhttp.send("_csrf="+document.getElementById("_csrf").getAttribute("value"));
 		}
 	}
