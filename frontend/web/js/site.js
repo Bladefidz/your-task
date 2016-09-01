@@ -45,7 +45,7 @@ function clearComplete() {
 	var task = tasks.getElementsByTagName("td");
 	for (var i = 0; i < task.length; i++) {
 		tmp = task[i].children;
-		if (tmp[0].hasAttribute("checked")) {
+		if (tmp[0].getAttribute("type") == "checkbox" && tmp[0].hasAttribute("checked")) {
 			task[i].closest('tr').remove();
 			// Post to delete item
 			var xmlhttp = new XMLHttpRequest();
@@ -64,15 +64,22 @@ function countComplete() {
 	var task = tasks.getElementsByTagName("td");
 	for (var i = 0; i < task.length; i++) {
 		tmp = task[i].children;
-		if (tmp[0].hasAttribute("checked")) {
+		if (tmp[0].getAttribute("type") == "checkbox" && tmp[0].hasAttribute("checked")) {
 			complete += 1;
 			unComplete -= 1;
 		}
 	}
 }
 
-function markAll() {
-	console.log("change");
+function changeAllDone(check) {
+	if (check.checked) {
+		var task = document.getElementsByName("check-task");
+		for (var i = 0; i < task.length; i++) {
+			if (task[i].getAttribute("type") == "checkbox" && !task[i].hasAttribute("checked")) {
+				task[i].checked = true;
+			}
+		}
+	}
 }
 
 
@@ -83,6 +90,7 @@ window.onload=function() {
 	tasks = document.getElementById("task-list");
 	counter = document.getElementById("counter");
 	markAll =document.getElementById("mark-all");
+
 	if (newTaskText) {
 		newTaskDate.addEventListener(
 			"change", 
@@ -94,10 +102,7 @@ window.onload=function() {
 
 	if (markAll) {
 		markAll.addEventListener(
-			"change", 
-			function() {
-				markAll()
-			}
+			"change", function() { changeAllDone(this) }
 		)
 	}
 

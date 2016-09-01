@@ -26,7 +26,7 @@
 					<?php foreach ($task as $key => $value): ?>
 						<tr>
 							<td>
-								<input type="checkbox" name="check" <?php if ($value['Done'] > 0){ echo "checked"; } ?> class="checkbox" id="<?php echo $value['Id'] ?>">
+								<input type="checkbox" name="check-task" <?php if ($value['Done'] > 0){ echo "checked"; } ?> class="checkbox" id="<?php echo $value['Id'] ?>">
 							</td>
 							<td>
 								<span id="task-text-1"><?php echo $value['Text'] ?></span>
