@@ -49,7 +49,7 @@ function clearComplete() {
 			task[i].closest('tr').remove();
 			// Post to delete item
 			var xmlhttp = new XMLHttpRequest();
-	        xmlhttp.open("POST", "http://localhost/your-task/task/delete?id="+tmp[0].id, true);
+	        xmlhttp.open("POST", "http://localhost/your-task/task/delete?id="+tmp[0].id.split("--")[0], true);
 			xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			xmlhttp.send("_csrf="+document.getElementById("_csrf").getAttribute("value"));
 		}
@@ -73,10 +73,27 @@ function countComplete() {
 
 function changeAllDone(check) {
 	if (check.checked) {
-		var task = document.getElementsByName("check-task");
-		for (var i = 0; i < task.length; i++) {
-			if (task[i].getAttribute("type") == "checkbox" && !task[i].hasAttribute("checked")) {
-				task[i].checked = true;
+		var check = document.getElementsByName("task-check");
+		var text = document.getElementsByName("task-text");
+		var due = document.getElementsByName("task-due");
+		var ids = null;
+
+		for (var i = 0; i < check.length; i++) {
+			if (check[i].getAttribute("type") == "checkbox" && !check[i].hasAttribute("checked")) {
+				check[i].checked = true;
+				ids = check[i].id; 
+
+				// UPDATE
+				var xmlhttp = new XMLHttpRequest();
+		        xmlhttp.open("POST", "http://localhost/your-task/task/update?id="+ids.split("--")[0], true);
+				xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xmlhttp.send(
+					"_csrf="+document.getElementById("_csrf").getAttribute("value")+
+					"&Task[_Order]="+ids.split("--")[1]+
+					"&Task[Done]=1"+
+					"&Task[Text]="+text[i].innerHTML+
+					"&Task[Date]="+due[i].innerHTML
+				);
 			}
 		}
 	}

@@ -26,13 +26,13 @@
 					<?php foreach ($task as $key => $value): ?>
 						<tr>
 							<td>
-								<input type="checkbox" name="check-task" <?php if ($value['Done'] > 0){ echo "checked"; } ?> class="checkbox" id="<?php echo $value['Id'] ?>">
+								<input type="checkbox" name="task-check" <?php if ($value['Done'] > 0){ echo "checked"; } ?> class="checkbox" id="<?php echo $value['Id'] ?>--<?php echo $value['_Order'] ?>">
 							</td>
 							<td>
-								<span id="task-text-1"><?php echo $value['Text'] ?></span>
+								<span id="task-text" name="task-text"><?php echo $value['Text'] ?></span>
 							</td>
 							<td>
-								<span id="task-text-1"><?php echo $value['Date'] ?></span>
+								<span id="task-due" name="task-due"><?php echo $value['Date'] ?></span>
 							</td>
 						</tr>
 					<?php endforeach; ?>
