@@ -13,7 +13,14 @@ var unComplete = 0;
 var tmp;
 
 function createTask(text, due) {
-	if (text) {
+	text = text.value;
+	console.log(due);
+	// validate date
+	var now = new Date();
+	var dues = due.split("-");
+	var dueDate = new Date(dues[0], dues[1]-1, dues[2]);
+
+	if (text && dueDate <= now && dueDate >= new Date(2016, 6, 16)) {
 		tasks = document.getElementById("task-list");
 
 		// Post new item
@@ -27,6 +34,8 @@ function createTask(text, due) {
 		);
 
 		addNewTask(text, due);
+	} else {
+		alert("Please check your due date !");
 	}
 }
 
@@ -136,9 +145,9 @@ window.onload=function() {
 
 	if (newTaskText) {
 		newTaskDate.addEventListener(
-			"change", 
+			"blur", 
 			function() {
-				createTask(newTaskText.value, this.value)
+				createTask(newTaskText, this.value)
 			}
 		);
 	}
