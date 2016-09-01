@@ -1,0 +1,3 @@
+[submodule "your-task"]
+	path = your-task
+	url = https://github.com/Bladefidz/your-task
