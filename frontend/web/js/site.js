@@ -18,7 +18,9 @@ function createTask(text, due) {
         xmlhttp.open("POST", "http://localhost/your-task/task/create", true);
 		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xmlhttp.send(
-			"Task[_Order]=1&Task[Done]=0&Task[Text]="+text+"&Task[Date]="+due+" 00:00:00"
+			"_csrf="+
+			document.getElementById("_csrf").getAttribute("value")
+			+"&Task[_Order]=1&Task[Done]=0&Task[Text]="+text+"&Task[Date]="+due+" 00:00:00"
 		);
 
 		addNewTask(text, due);

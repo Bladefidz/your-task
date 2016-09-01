@@ -3,6 +3,8 @@
 	$task = Yii::$app->db->createCommand('SELECT * FROM task')->queryAll();
 ?>
 <div class="site-index">
+	<input type="hidden" id="_csrf" value="<?php echo Yii::$app->request->getCsrfToken() ?>">
+	<input type="hidden" id="lastOrder" value="">
 	<div class="col-lg-12 header">
 		<h3>Your Task List</h3>
 	</div>
