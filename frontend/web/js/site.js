@@ -4,6 +4,7 @@ var tasks;
 var taskCount;
 var counter;
 var clearer;
+var markAll;
 var complete = 0;
 var unComplete = 0;
 var tmp;
@@ -14,16 +15,11 @@ function createTask(text, due) {
 
 		// Post
 		var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
-            }
-        };
-  //       xmlhttp.open("POST", "http://localhost/your-task/task/create", true);
-		// xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		// xhttp.send(
-		// 	"Task[_Order]:1&Task[Done]:0&Task[Text]:"+text+"&Task[Date]:"+due
-		// );
+        xmlhttp.open("POST", "http://localhost/your-task/task/create", true);
+		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xmlhttp.send(
+			"Task[_Order]=1&Task[Done]=0&Task[Text]="+text+"&Task[Date]="+due+" 00:00:00"
+		);
 
 		addNewTask(text, due);
 	}
@@ -78,31 +74,37 @@ window.onload=function() {
 	newTaskDate = document.getElementById("newDue");
 	clearer = document.getElementById("clear-complete");
 	tasks = document.getElementById("task-list");
-
-	newTaskDate.addEventListener(
-		"change", 
-		function() {
-			createTask(newTaskText.value, this.value)
-		}
-	);
-
-	document.getElementById("mark-all").addEventListener(
-		"change", 
-		function() {
-			markAll()
-		}
-	)
-
-	countComplete();
-
-	clearer.innerHTML = "Clear " + complete + " completed item";
-	clearer.addEventListener(
-		"click",
-		clearComplete
-	);
-
 	counter = document.getElementById("counter");
-	counter.innerHTML = unComplete + " items left";
+	markAll =document.getElementById("mark-all");
+	if (newTaskText) {
+		newTaskDate.addEventListener(
+			"change", 
+			function() {
+				createTask(newTaskText.value, this.value)
+			}
+		);
+	}
+
+	if (markAll) {
+		markAll.addEventListener(
+			"change", 
+			function() {
+				markAll()
+			}
+		)
+	}
+
+	if (clearer && counter) {
+		countComplete();
+
+		clearer.innerHTML = "Clear " + complete + " completed item";
+		clearer.addEventListener(
+			"click",
+			clearComplete
+		);
+
+		counter.innerHTML = unComplete + " items left";
+	}
 }
 
 /**
