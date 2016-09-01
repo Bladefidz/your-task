@@ -121,4 +121,19 @@ class TaskController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+    /**
+     * Costum
+     */
+    
+    /**
+     * [taskRerder description]
+     * @param  [type] $date [description]
+     * @return [type]       [description]
+     */
+    public function taskRerder($date)
+    {
+        # code...
+    }
 }

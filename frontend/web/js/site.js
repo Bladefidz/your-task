@@ -13,7 +13,7 @@ function createTask(text, due) {
 	if (text) {
 		tasks = document.getElementById("task-list");
 
-		// Post
+		// Post new item
 		var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("POST", "http://localhost/your-task/task/create", true);
 		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -47,6 +47,11 @@ function clearComplete() {
 		tmp = task[i].children;
 		if (tmp[0].hasAttribute("checked")) {
 			task[i].closest('tr').remove();
+			// Post to delete item
+			var xmlhttp = new XMLHttpRequest();
+			console.log(tmp[0].closest('#task-id'));
+	        xmlhttp.open("GET", "http://localhost/your-task/task/delete?id="+tmp[0].closest('input').innerHTML, true);
+			xmlhttp.send("_csrf="+document.getElementById("_csrf").getAttribute("value"));
 		}
 	}
 
