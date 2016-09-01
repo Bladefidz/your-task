@@ -1,0 +1,10 @@
+# prevent directory listings
+Options -Indexes
+IndexIgnore */* */common*
+ 
+# follow symbolic links
+Options FollowSymlinks
+RewriteEngine on
+RewriteRule ^admin(/.+)?$ backend/web/$1 [L,PT]
+RewriteRule ^(.+)?$ frontend/web/$1
+RewriteRule ^common/assets(/.+)?$ common/assets/$1 [L,PT]
