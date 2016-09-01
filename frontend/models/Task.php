@@ -29,7 +29,7 @@ class Task extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['_Order', 'Done', 'Text', 'Date'], 'required'],
+            [['_Order', 'Done'], 'required'],
             [['_Order', 'Done'], 'integer'],
             [['Date'], 'safe'],
             [['Text'], 'string', 'max' => 64],

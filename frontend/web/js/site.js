@@ -5,6 +5,9 @@ var taskCount;
 var counter;
 var clearer;
 var markAll;
+var check;
+var text;
+var due;
 var complete = 0;
 var unComplete = 0;
 var tmp;
@@ -73,9 +76,6 @@ function countComplete() {
 
 function changeAllDone(check) {
 	if (check.checked) {
-		var check = document.getElementsByName("task-check");
-		var text = document.getElementsByName("task-text");
-		var due = document.getElementsByName("task-due");
 		var ids = null;
 
 		for (var i = 0; i < check.length; i++) {
@@ -99,6 +99,29 @@ function changeAllDone(check) {
 	}
 }
 
+function setDone(el) {
+	var done = null;
+	var ids = el.id;
+	var id = ids.split("--")[0];
+	var order = ids.split("--")[1];
+
+	if (el.checked) {
+		done = 1;
+	} else {
+		done = 0;
+	}
+
+	// UPDATE
+	var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "http://localhost/your-task/task/update?id="+id, true);
+	xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xmlhttp.send(
+		"_csrf="+document.getElementById("_csrf").getAttribute("value")+
+		"&Task[_Order]="+order+
+		"&Task[Done]="+done
+	);
+}
+
 
 window.onload=function() {
 	newTaskText = document.getElementById("newTodo");
@@ -107,6 +130,9 @@ window.onload=function() {
 	tasks = document.getElementById("task-list");
 	counter = document.getElementById("counter");
 	markAll =document.getElementById("mark-all");
+	check = document.getElementsByName("task-check");
+	text = document.getElementsByName("task-text");
+	due = document.getElementsByName("task-due");
 
 	if (newTaskText) {
 		newTaskDate.addEventListener(
@@ -121,6 +147,14 @@ window.onload=function() {
 		markAll.addEventListener(
 			"change", function() { changeAllDone(this) }
 		)
+	}
+
+	if (check) {
+		for (var i = 0; i < check.length; i++) {
+			check[i].addEventListener(
+				"click", function() {setDone(this)}
+			)
+		}
 	}
 
 	if (clearer && counter) {
